@@ -1,0 +1,39 @@
+// Apply Android library plugin
+apply plugin: 'com.android.library'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+}
+
+// Android configuration
+android {
+    namespace "com.unity3d.player"
+    ndkPath "C:/Android/ndk"
+    compileSdkVersion 34
+    buildToolsVersion '34.0.0'
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 34
+        ndk {
+            abiFilters "armeabi-v7a", "arm64-v8a"
+        }
+        versionCode 1
+        versionName '1.0'
+        consumerProguardFiles 'proguard-unity.txt'
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    aaptOptions {
+        noCompress 'unity3d', 'unity3dasset'
+        noCompress += unityStreamingAssets.tokenize(', ')
+    }
+}
